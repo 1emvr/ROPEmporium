@@ -133,6 +133,7 @@ mov     edi, 1          ; status
 call    _exit
 ```
 In the `_pwnme` function: `s` pointer is 0x20 bytes. `_read` in 0x200 bytes maximum
+
 In the `_print_file` function: pass the string argument for file to open
 
 - `.init_array` section is 0x8 bytes and is writable
