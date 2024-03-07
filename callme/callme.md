@@ -1,4 +1,4 @@
-```
+```asm
 pwnme proc near
 
 s= byte ptr -20h
