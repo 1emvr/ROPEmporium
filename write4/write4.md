@@ -19,3 +19,124 @@
        0000000000000008  0000000000000000  WA       0     0     1
 
 ```
+
+- `_pwnme` and `_print_file` are now jmps from cs register offset in .got.plt @ 0x0000000000601000
+`Breakpoint 1 at 0x400510 (print_file@plt)`
+`Breakpoint 2 at 0x400500 (pwnme@plt)`
+
+```asm
+0000000000400617 <usefulFunction>:
+  400617:       55                      push   %rbp
+  400618:       48 89 e5                mov    %rsp,%rbp
+  40061b:       bf b4 06 40 00          mov    $0x4006b4,%edi
+  400620:       e8 eb fe ff ff          call   400510 <print_file@plt>
+  400625:       90                      nop
+  400626:       5d                      pop    %rbp
+  400627:       c3                      ret
+
+0000000000400628 <usefulGadgets>:
+  400628:       4d 89 3e                mov    %r15,(%r14)
+  40062b:       c3                      ret
+  40062c:       0f 1f 40 00             nopl   0x0(%rax)
+
+0000000000400500 <pwnme@plt>:
+  400500:       ff 25 12 0b 20 00       jmp    *0x200b12(%rip)        # 601018 <pwnme>
+  400506:       68 00 00 00 00          push   $0x0
+  40050b:       e9 e0 ff ff ff          jmp    4004f0 <.plt>
+
+0000000000400510 <print_file@plt>:
+  400510:       ff 25 0a 0b 20 00       jmp    *0x200b0a(%rip)        # 601020 <print_file>
+  400516:       68 01 00 00 00          push   $0x1
+  40051b:       e9 d0 ff ff ff          jmp    4004f0 <.plt>
+
+
+```
+
+#### pwnme in libwrite4.so
+```asm
+public pwnme
+pwnme proc near
+
+s= byte ptr -20h
+
+; __unwind {
+push    rbp
+mov     rbp, rsp
+sub     rsp, 20h
+mov     rax, cs:stdout_ptr
+mov     rax, [rax]
+mov     ecx, 0          ; n
+mov     edx, 2          ; modes
+mov     esi, 0          ; buf
+mov     rdi, rax        ; stream
+call    _setvbuf
+lea     rdi, s          ; "write4 by ROP Emporium"
+call    _puts
+lea     rdi, aX8664     ; "x86_64\n"
+call    _puts
+lea     rax, [rbp+s]
+mov     edx, 20h ; ' '  ; n
+mov     esi, 0          ; c
+mov     rdi, rax        ; s
+call    _memset
+lea     rdi, aGoAheadAndGive ; "Go ahead and give me the input already!"...
+call    _puts
+lea     rdi, format     ; "> "
+mov     eax, 0
+call    _printf
+lea     rax, [rbp+s]
+mov     edx, 200h       ; nbytes
+mov     rsi, rax        ; buf
+mov     edi, 0          ; fd
+call    _read
+lea     rdi, aThankYou  ; "Thank you!"
+call    _puts
+nop
+leave
+retn
+; } // starts at 8AA
+pwnme endp
+```
+#### print_file in libwrite4.so
+```asm
+; Attributes: bp-based frame
+
+public print_file
+print_file proc near
+
+filename= qword ptr -38h
+s= byte ptr -30h
+stream= qword ptr -8
+
+; __unwind {
+push    rbp
+mov     rbp, rsp
+sub     rsp, 40h
+mov     [rbp+filename], rdi
+mov     [rbp+stream], 0
+mov     rax, [rbp+filename]
+lea     rsi, modes      ; "r"
+mov     rdi, rax        ; filename
+call    _fopen
+mov     [rbp+stream], rax
+cmp     [rbp+stream], 0
+jnz     short loc_997
+
+-->
+
+mov     rax, [rbp+filename]
+mov     rsi, rax
+lea     rdi, aFailedToOpenFi ; "Failed to open file: %s\n"
+mov     eax, 0
+call    _printf
+mov     edi, 1          ; status
+call    _exit
+```
+In the `_pwnme` function: `s` pointer is 0x20 bytes. `_read` in 0x200 bytes maximum
+In the `_print_file` function: pass the string argument for file to open
+
+- `.init_array` section is 0x8 bytes and is writable
+- `.fini_array` section is 0x8 bytes and is writable
+- `.dynamic` section is 0x10 bytes and is writeable
+- `.got` section is 0x10  bytes and is writable
+- `.got.plt` section is 0x8 bytes and is writable
