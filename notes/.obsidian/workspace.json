@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ROP & DEP_CET Bypass.md",
+                "file": "ROP & DEP_CET Bypass(x64).md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ROP & DEP_CET Bypass.md",
+                "file": "ROP & DEP_CET Bypass(x64).md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ROP & DEP_CET Bypass.md",
+                "file": "ROP & DEP_CET Bypass(x64).md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ROP & DEP_CET Bypass.md"
+                "file": "ROP & DEP_CET Bypass(x64).md"
               }
             }
           }
