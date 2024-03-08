@@ -78,7 +78,7 @@ low memory address
 - leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`
 ## Write What Where
 #### Heap Overflow (malloc/free)
-Accounting information for memory allocation might be overwritten in some way
+Metadata for memory allocation might be overwritten in some way
 ```cpp
 #define BUFLEN 256
 int main(int argc, char **argv) {
