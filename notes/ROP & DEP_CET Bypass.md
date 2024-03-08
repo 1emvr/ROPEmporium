@@ -1,4 +1,5 @@
 ROP Basics: [Exploit writing tutorial part 10 : Chaining DEP with ROP – the Rubik’s[TM] Cube](https://www.corelan.be/index.php/2010/06/16/exploit-writing-tutorial-part-10-chaining-dep-with-rop-the-rubikstm-cube/) 🙀
+# Basics
 ## Setting boot-time NX option
 ```
 bcdedit.exe /v -- show all
@@ -88,6 +89,32 @@ AAAA
 low memory address
 ```
 
+## Stack Pivots
+[Exploitation - Binary Exploitation (gitbook.io)](https://ir0nstone.gitbook.io/notes/types/stack/stack-pivoting/exploitation)
+#### Gadgets
+- pop rsp gadget - `pop rsp; ret`
+- xchg gadget - `pop rxx; value; xchg rxx, rsp`
+- leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`
+## Write What Where
+#### Classic Example
+Accounting information for memory allocation might be overwritten in some way
+```cpp
+#define BUFLEN 256
+int main(int argc, char **argv) {
+	char* buf1 = (char*) malloc(BUFLEN);
+	char* buf2 = (char*) malloc(BUFLEN);
+
+	strcpy(buf1, argv[1]);
+	free(buf2);
+}
+```
+- `_strcpy` can be used to overwrite the end of `buf1` into `buf2`
+- The C-standard uses a linked-list structure to track allocation/deallocation
+- Call to `_free` should use data from `buf2` in order to re-write the linked list:
+	- the `next*` pointer for `buf1` will be updated as `prev*` for any subsequent ptr respectively
+	- adding arbitrary memory to `next*` should allow an update of `buf1` link
+
+# Windows Specific
 ## Function params and usage
 
 First, pointer to VirtualAlloc() must be at the top of the stack, which is then followed by the following parameters:
@@ -159,7 +186,6 @@ Once this is finished, WPM will copy the shellcode into the region and will writ
 Overwriting this area would black-hole to our shellcode upon subsequent instructions. `(investigate this)`. `0x7C8022CF` would be good address to use as the destination.
 
 `lpNumberOfBytesWritten` still needs to point to writable memory. The first parameter (`return address`) would no longer matter in this case. Reminder that the destination address needs to remain within the bounds of `WriteProcessMemory`. Writing too far into kernel32 could corrupt memory.
-
 ```
 rax : return address               (0xFFFFFFFF)
 rcx : hProcess                     (0xFFFFFFFF or otherwise)
@@ -178,9 +204,3 @@ WPM_T _WriteProcessMemory = GetProcAddress(GetModuleHandle("ntdll"),"WriteProces
 ???
 ```
 
-## Stack Pivots
-[Exploitation - Binary Exploitation (gitbook.io)](https://ir0nstone.gitbook.io/notes/types/stack/stack-pivoting/exploitation)
-
-- pop rsp gadget - `pop rsp; ret`
-- xchg gadget - `pop rxx; value; xchg rxx, rsp`
-- leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`

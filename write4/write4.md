@@ -134,10 +134,12 @@ call    _exit
 ```
 In the `_pwnme` function: `s` pointer is 0x20 bytes. `_read` in 0x200 bytes maximum
 
-In the `_print_file` function: pass the string argument for file to open
+In the `_print_file` function: pass the string argument for file to open. The stack is 0x40 bytes
 
 - `.init_array` section is 0x8 bytes and is writable
 - `.fini_array` section is 0x8 bytes and is writable
 - `.dynamic` section is 0x10 bytes and is writeable
 - `.got` section is 0x10  bytes and is writable
 - `.got.plt` section is 0x8 bytes and is writable
+
+`mov [rbp+filename], rdi` is a potential write-what-where gadget that could be abused
