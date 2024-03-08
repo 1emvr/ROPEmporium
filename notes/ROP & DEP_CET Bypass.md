@@ -41,25 +41,6 @@ If a system function call crashes somewhere on a `movaps` instruction or `do_sys
 #### Imports
 If a random function imports a useful library function, you don't need to call that random funciton in order to use the library function 
 
-#### Custom Gadgets
-> Note - Setting certain values on the stack or registers can alter other values/registers
-
-Some examples of functions that can be manipulated to disable/bypass DEP:
-- __VirtualAlloc + memcpy:__
-	Creation executable pages, copy shellcode and execute. A 2-chain may be required.
-- __HeapCreate(HEAP_CREATE_ENABLE_EXECUTE) + HeapAlloc:__
-	Provides the same, but a 3-chain may be required.
-- __SetProcessDEPPolicy :__
-	Allowing to directly change the DEP policy for current process
-- __NtSetInformationProcess :__                                         
-	Changes the DEP policy as well
-- __VirtualProtect :__
-	Changes access protection level of a page
-- __WriteProcessMemory :__
-	Copies code to another process
-
-Obviously, setting up the stack changes with each API for their arguments. In order to do this, the ESP/RSP must point to the API functions parameters. Most of the time will be returning back to the stack.
-
 Ex:
 ```
 ...junk (top to bottom/reversed)
@@ -96,7 +77,7 @@ low memory address
 - xchg gadget - `pop rxx; value; xchg rxx, rsp`
 - leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`
 ## Write What Where
-#### Classic Example
+#### Classic Example - Dynamic memory (malloc/free)
 Accounting information for memory allocation might be overwritten in some way
 ```cpp
 #define BUFLEN 256
@@ -108,14 +89,35 @@ int main(int argc, char **argv) {
 	free(buf2);
 }
 ```
+
 - `_strcpy` can be used to overwrite the end of `buf1` into `buf2`
 - The C-standard uses a linked-list structure to track allocation/deallocation
 - Call to `_free` should use data from `buf2` in order to re-write the linked list:
 	- the `next*` pointer for `buf1` will be updated as `prev*` for any subsequent ptr respectively
-	- adding arbitrary memory to `next*` should allow an update of `buf1` link
+	- adding arbitrary memory to `next*` inside `buf2` should allow an update of `buf1` link once the second block is freed.
 
 # Windows Specific
+
 ## Function params and usage
+
+#### Custom Gadgets
+> Note - Setting certain values on the stack or registers can alter other values/registers
+
+Some examples of functions that can be manipulated to disable/bypass DEP:
+- __VirtualAlloc + memcpy:__
+	Creation executable pages, copy shellcode and execute. A 2-chain may be required.
+- __HeapCreate(HEAP_CREATE_ENABLE_EXECUTE) + HeapAlloc:__
+	Provides the same, but a 3-chain may be required.
+- __SetProcessDEPPolicy :__
+	Allowing to directly change the DEP policy for current process
+- __NtSetInformationProcess :__                                         
+	Changes the DEP policy as well
+- __VirtualProtect :__
+	Changes access protection level of a page
+- __WriteProcessMemory :__
+	Copies code to another process
+
+Obviously, setting up the stack changes with each API for their arguments. In order to do this, the ESP/RSP must point to the API functions parameters. Most of the time will be returning back to the stack.
 
 First, pointer to VirtualAlloc() must be at the top of the stack, which is then followed by the following parameters:
 
