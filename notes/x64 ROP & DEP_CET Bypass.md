@@ -97,6 +97,18 @@ int main(int argc, char **argv) {
 	- adding arbitrary memory to `next*` inside `buf2` should allow an update of `buf1` link once the second block is freed.
 
 #### Format String
+These are extremely rare in today's development.
+```cpp
+int main() {
+	char name[64] = { 0 };
+	read(stdin, name, 64);
+	printf(name);
+	return 0;
+}
+```
+
+- print format modifiers `%x.%x.%x.%x.` to pop values off the stack\[4\]
+- `_printf` can index to an arbitrary array within arguments: `%n$x`
 #### Use After Free
 #### Integer Overflow
 #### Pointer Subterfuge
