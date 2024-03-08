@@ -143,3 +143,4 @@ In the `_print_file` function: pass the string argument for file to open. The st
 - `.got.plt` section is 0x8 bytes and is writable
 
 `mov [rbp+filename], rdi` is a potential write-what-where gadget that could be abused
+the challenge gives the hint `mov [rxx], rxx` as a gadget to write with

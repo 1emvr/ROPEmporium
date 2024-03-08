@@ -77,7 +77,7 @@ low memory address
 - xchg gadget - `pop rxx; value; xchg rxx, rsp`
 - leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`
 ## Write What Where
-#### Heap Overflow (malloc/free)
+### Heap Overflow (malloc/free)
 Metadata for memory allocation might be overwritten in some way
 ```cpp
 #define BUFLEN 256
@@ -96,7 +96,8 @@ int main(int argc, char **argv) {
 	- the `next*` pointer for `buf1` will be updated as `prev*` for any subsequent ptr respectively
 	- adding arbitrary memory to `next*` inside `buf2` should allow an update of `buf1` link once the second block is freed.
 
-#### Format String
+### Format String
+#### Example 1 - Addresses 
 These are extremely rare in today's development.
 ```cpp
 int main() {
@@ -109,11 +110,40 @@ int main() {
 
 - print format modifiers `%x.%x.%x.%x.` to pop values off the stack\[4\]
 - `_printf` can index to an arbitrary array within arguments: `%n$x`
-#### Use After Free
-#### Integer Overflow
-#### Pointer Subterfuge
-# Windows Specific
 
+```cpp
+'BBBBBBBB' %p.%p.%p.%p. -> 
+	"0x7ffffdc3646cbcc 0x3733d332cdbc 0x4242424242424242 07fffff..."
+```
+Input on the stack is at the 3rd position. Using different format specifiers @ our input's position to observe the behavior
+
+```cpp
+'BBBBBBBB' %p.%p.%s.%p. -> 
+	Segmentation fault(core dumped)
+```
+A crash indicates this would be deferenced as address `0x4242424242424242` which is not valid.  This is trying to dereference as a pointer.
+
+#### Example 2 - Hidden Data
+```cpp
+char data[] = "comd get me\n";
+int main(int argc, char **argv) {
+
+	printf("Hidden data at %p\n", &data);
+	char buffer[32];
+	get(buffer);
+
+	printf(buffer);
+	printf("\n");
+}
+
+AAAA %11$p %p %p %p %p %p %p %p %p ->
+	0x41414141 0x5568933d 0x9e 0x3347eefd (nil) 0xf7773def ...
+```
+### Use After Free
+### Integer Overflow
+### Pointer Subterfuge
+
+# Windows Specific
 ## Function params and usage
 
 #### Custom Gadgets
