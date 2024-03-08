@@ -9,7 +9,7 @@ bcdedit.exe /set nx AlwaysOn
 bcdedit.exe /set nx AlwaysOff
 ```
 
-Loaded module gadgets will be the only way to execute instructions, using data on the stack as parameters. Specific settings will require a specific approach and technique.
+Loaded module/ main executable gadgets will be the only way to execute instructions, using data on the stack as parameters. Specific settings will require a specific approach and technique.
 
 Existing module functions will provide the following:
 - execute commands (e.g. WinExec)
@@ -20,7 +20,7 @@ Existing module functions will provide the following:
 Bypassing or changing DEP settings can all be done with native Windows API calls 
 
 #### Overcoming ASLR
-- cause a memory leak
+- cause a memory leak to a module/ library
 - take brute-force approach (unreasonable on 64-bit systems)
 - choose a module that doesn't have ASLR/Rebase enabled
 
@@ -125,7 +125,7 @@ Obviously, setting up the stack changes with each API for their arguments. In or
 
 First, pointer to VirtualAlloc() must be at the top of the stack, which is then followed by the following parameters:
 
-#### VirtualAlloc
+### VirtualAlloc
 ```
 rsp -> ....
 DWORD_PTR [kernel32.VirtualAlloc]
@@ -141,7 +141,7 @@ DWORD_PTR [kernel32.VirtualAlloc]
 ret __memcpy()
 ```
 
-#### \_\_memcpy():
+### \_\_memcpy():
 ```
 DWORD_PTR [ucrt.memcpy]
 ```
@@ -154,7 +154,7 @@ DWORD_PTR [ucrt.memcpy]
 jmp lpAddress
 ```
 
-#### WriteProcessMemory Injection
+### WriteProcessMemory Injection
 ```
 rsp -> ...
 DWORD_PTR [kernel32.WriteProcessMemory]
