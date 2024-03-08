@@ -77,7 +77,7 @@ low memory address
 - xchg gadget - `pop rxx; value; xchg rxx, rsp`
 - leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`
 ## Write What Where
-#### Classic Example - Dynamic memory (malloc/free)
+#### Heap Overflow (malloc/free)
 Accounting information for memory allocation might be overwritten in some way
 ```cpp
 #define BUFLEN 256
@@ -96,6 +96,10 @@ int main(int argc, char **argv) {
 	- the `next*` pointer for `buf1` will be updated as `prev*` for any subsequent ptr respectively
 	- adding arbitrary memory to `next*` inside `buf2` should allow an update of `buf1` link once the second block is freed.
 
+#### Format String
+#### Use After Free
+#### Integer Overflow
+#### Pointer Subterfuge
 # Windows Specific
 
 ## Function params and usage
