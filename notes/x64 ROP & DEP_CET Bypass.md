@@ -1,5 +1,4 @@
 ROP Basics: [Exploit writing tutorial part 10 : Chaining DEP with ROP – the Rubik’s[TM] Cube](https://www.corelan.be/index.php/2010/06/16/exploit-writing-tutorial-part-10-chaining-dep-with-rop-the-rubikstm-cube/) 🙀
-# Basics
 ## Setting boot-time NX option
 ```
 bcdedit.exe /v -- show all
@@ -47,7 +46,6 @@ If a random function imports a useful library function, you don't need to call t
 -  `pop rsp; ret`
 -  `pop rxx; value; xchg rxx, rsp`
 -  `mov rsp, rbp; pop rbp` or `leave; ret` 
-
 ## Code Caves
 Checking for sections where data is writable, using `mov QWORD PTR [reg1], reg2` will allow whatever is written to `reg2` be written to the address of the referenced value within `reg1`
 ## Write What Where
