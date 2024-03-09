@@ -73,11 +73,11 @@ low memory address
 ## Stack Pivots
 [Exploitation - Binary Exploitation (gitbook.io)](https://ir0nstone.gitbook.io/notes/types/stack/stack-pivoting/exploitation)
 #### Gadgets
-- pop rsp gadget - `pop rsp; ret`
-- xchg gadget - `pop rxx; value; xchg rxx, rsp`
-- leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`
+-  `pop rsp; ret`
+-  `pop rxx; value; xchg rxx, rsp`
+-  `mov rsp, rbp; pop rbp` or `leave; ret` 
 
-### Code Caves
+## Code Caves
 Checking for sections where data is writable, using `mov QWORD PTR [reg1], reg2` will allow whatever is written to `reg2` be written to the address of the referenced value within `reg1`
 ## Write What Where
 ### Heap Overflow (malloc/free)
