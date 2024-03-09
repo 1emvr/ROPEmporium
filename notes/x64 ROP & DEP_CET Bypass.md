@@ -41,35 +41,6 @@ If a system function call crashes somewhere on a `movaps` instruction or `do_sys
 #### Imports
 If a random function imports a useful library function, you don't need to call that random funciton in order to use the library function 
 
-Ex:
-```
-...junk (top to bottom/reversed)
-rop gadgets
-ESP-> SSN or fnPtr
-param
-param
-param
-param
-...
-nops
-shellcode
-more data
-
----- General control flow (simple) ----
-high memory address
-&exit() <-- rop3 return address
-&rop3() <-- rop2 return address
-&rop2() <-- rop1 return address
-&rop1() <-- Vulnerable return address
-RBP     <-- Can be 4 non-null bytes
-AAAA
-AAAA
-AAAA
-AAAA
-AAAA
-low memory address
-```
-
 ## Stack Pivots
 [Exploitation - Binary Exploitation (gitbook.io)](https://ir0nstone.gitbook.io/notes/types/stack/stack-pivoting/exploitation)
 #### Gadgets
