@@ -144,3 +144,16 @@ In the `_print_file` function: pass the string argument for file to open. The st
 
 `mov [rbp+filename], rdi` is a potential write-what-where gadget that could be abused
 the challenge gives the hint `mov [rxx], rxx` as a gadget to write with
+
+## final pseudocode
+```asm
+pop r14 (dst)
+pop r15 (src)
+ret
+&.data
+"flag.txt"
+mov [r14], r15
+pop rdi
+.data
+__print_file
+```
