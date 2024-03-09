@@ -158,3 +158,5 @@ pop rdi
 .data
 __print_file
 ```
+
+![[2024-03-09_03-45.png]]
