@@ -47,7 +47,8 @@ If a random function imports a useful library function, you don't need to call t
 -  `pop rxx; value; xchg rxx, rsp`
 -  `mov rsp, rbp; pop rbp` or `leave; ret` 
 ## Code Caves
-Checking for sections where data is writable, using `mov QWORD PTR [reg1], reg2` will allow whatever is written to `reg2` be written to the address of the referenced value within `reg1`
+Checking for sections where data is writable, using `mov QWORD PTR [dst], src` will allow whatever is written to `dst` be written to the address of the referenced value within `src`. This is essentially `_strcpy` operation.
+
 ## Write What Where
 ### Heap Overflow (malloc/free)
 Metadata for memory allocation might be overwritten in some way
