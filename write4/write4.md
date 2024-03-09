@@ -145,7 +145,8 @@ In the `_print_file` function: pass the string argument for file to open. The st
 `mov [rbp+filename], rdi` is a potential write-what-where gadget that could be abused
 the challenge gives the hint `mov [rxx], rxx` as a gadget to write with
 
-## final pseudocode (essentially __strcpy(dst[r14], src[r15]))
+## final pseudocode 
+essentially `__strcpy(dst[r14], src[r15]))`
 ```asm
 pop r14 (dst)
 pop r15 (src)
