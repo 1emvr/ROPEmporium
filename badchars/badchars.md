@@ -54,7 +54,6 @@ jmp     short loc_9EB
 
 hex['x', 'g', 'a', '.'] == 0x78 0x67 0x61 0x2e
 ```
-
 `var_40` seems to be the buffer loaded in for the call to `_read`
 
 ```asm
@@ -65,10 +64,12 @@ hex['x', 'g', 'a', '.'] == 0x78 0x67 0x61 0x2e
 ```
 `_print_file` function is just the same as in write4
 
+
+#### potential gadgets to xor/un-xor bytes within the binary
 ```
 [INFO] File: badchars
 0x0000000000400628: xor byte ptr [r15], r14b; ret;
 0x0000000000400629: xor byte ptr [rdi], dh; ret;
 ```
 
-potential gadgets to xor/un-xor bytes within the binary
+
