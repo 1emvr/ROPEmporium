@@ -76,6 +76,9 @@ low memory address
 - pop rsp gadget - `pop rsp; ret`
 - xchg gadget - `pop rxx; value; xchg rxx, rsp`
 - leave gadget - `leave; ret` or `mov rsp, rbp; pop rbp`
+
+### Code Caves
+Checking for sections where data is writable, using `mov QWORD PTR [reg1], reg2` will allow whatever is written to `reg2` be written to the address of the referenced value within `reg1`
 ## Write What Where
 ### Heap Overflow (malloc/free)
 Metadata for memory allocation might be overwritten in some way
