@@ -137,7 +137,7 @@ location
 system/print_file
 ```
 
-My script was close, but did not account for endianess of the xor'd characters, nor did it check for null-termination of strings. 
+My script was close, but did not account for endianess of the xor'd characters, nor did it check for null-termination of strings or padding/alignment. 
 Also, did not consider double-encoding for bad xor characters (simply exited with error prior). Found some tips here: 
 https://blog.lamarranet.com/index.php/rop-emporium-badchars-solution/
 
