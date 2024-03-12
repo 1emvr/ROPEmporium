@@ -74,3 +74,41 @@ Contents of section .bss:
  601038 00000000 00000000                    ........
 
 ```
+
+#### mov gadgets
+```asm
+[INFO] File: fluff
+0x00000000004005e2: mov byte ptr [rip + 0x200a4f], 1; pop rbp; ret;
+0x0000000000400606: mov dword ptr [rbp + 0x48], edx; mov ebp, esp; call 0x500; mov eax, 0; pop rbp; ret;
+0x0000000000400610: mov eax, 0; pop rbp; ret;
+0x00000000004004d5: mov eax, dword ptr [rip + 0x200b1d]; test rax, rax; je 0x4e2; call rax;
+0x00000000004004d5: mov eax, dword ptr [rip + 0x200b1d]; test rax, rax; je 0x4e2; call rax; add rsp, 8; ret;
+0x0000000000400609: mov ebp, esp; call 0x500; mov eax, 0; pop rbp; ret;
+0x00000000004005db: mov ebp, esp; call 0x560; mov byte ptr [rip + 0x200a4f], 1; pop rbp; ret;
+0x0000000000400619: mov ebp, esp; mov edi, 0x4006c4; call 0x510; nop; pop rbp; ret;
+0x000000000040061b: mov edi, 0x4006c4; call 0x510; nop; pop rbp; ret;
+0x000000000040057c: mov edi, 0x601038; jmp rax;
+0x00000000004004d4: mov rax, qword ptr [rip + 0x200b1d]; test rax, rax; je 0x4e2; call rax;
+0x00000000004004d4: mov rax, qword ptr [rip + 0x200b1d]; test rax, rax; je 0x4e2; call rax; add rsp, 8; ret;
+0x0000000000400608: mov rbp, rsp; call 0x500; mov eax, 0; pop rbp; ret;
+0x00000000004005da: mov rbp, rsp; call 0x560; mov byte ptr [rip + 0x200a4f], 1; pop rbp; ret;
+0x0000000000400618: mov rbp, rsp; mov edi, 0x4006c4; call 0x510; nop; pop rbp; ret;
+```
+
+#### pop gadgets
+```asm
+[INFO] File: fluff
+0x000000000040069c: pop r12; pop r13; pop r14; pop r15; ret;
+0x000000000040069e: pop r13; pop r14; pop r15; ret;
+0x00000000004006a0: pop r14; pop r15; ret;
+0x00000000004006a2: pop r15; ret;
+0x000000000040057b: pop rbp; mov edi, 0x601038; jmp rax;
+0x000000000040069b: pop rbp; pop r12; pop r13; pop r14; pop r15; ret;
+0x000000000040069f: pop rbp; pop r14; pop r15; ret;
+0x0000000000400588: pop rbp; ret;
+0x000000000040062b: pop rcx; add rcx, 0x3ef2; bextr rbx, rcx, rdx; ret;
+0x00000000004006a3: pop rdi; ret;
+0x000000000040062a: pop rdx; pop rcx; add rcx, 0x3ef2; bextr rbx, rcx, rdx; ret;
+0x00000000004006a1: pop rsi; pop r15; ret;
+0x000000000040069d: pop rsp; pop r13; pop r14; pop r15; ret;
+``
