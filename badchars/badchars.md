@@ -136,7 +136,7 @@ pop_rdi
 location
 system/print_file
 ```
-
+As it turned out, the address for `.data` had one of the bad characters while incrementing. `.bss` was chosen instead.
 My script was close, but did not account for endianess of the xor'd characters, nor did it check for null-termination of strings or padding/alignment. 
 Also, did not consider double-encoding for bad xor characters (simply exited with error prior).
 
