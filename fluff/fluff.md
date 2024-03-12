@@ -47,7 +47,7 @@ You know changing these strings means I have to rewrite my solutions...
 
 #### Sections
 ```sh
-[18] .init_array       INIT_ARRAY       0000000000600df0  00000df0
+  [18] .init_array       INIT_ARRAY       0000000000600df0  00000df0
        0000000000000008  0000000000000008  WA       0     0     8
   [19] .fini_array       FINI_ARRAY       0000000000600df8  00000df8
        0000000000000008  0000000000000008  WA       0     0     8
