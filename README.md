@@ -188,7 +188,7 @@ Notice that `lpNumberOfBytesWritten` address is before the destination address, 
 #### WPM Technique 1: Full WPM()
 Simply write shellcode to executable memory and jump. Patching is possible with this. Be cautious of what you overwrite as the overwritten code could be used by your implant, therefore, corrupting it.
 
-Another problem is that once the region is written, executable write-permissions will be downgraded again once the call is finished. If you have encoded/encrypted shellcode, it will not be permitted to modify itself `(no sleep-obf, decryption, spoofing or otherwise)`. This can be an issue because of bad characters. 
+Another problem is that once the region is written, executable write-permissions will be downgraded again once the call is finished. If you have encoded/encrypted shellcode, it will not be permitted to modify itself `(no sleep-obf, decryption, spoofing or otherwise)`. This can also be an issue because of bad characters and we're not permitted to change the data. 
 
 Prepending the shellcode with another calling `VirtualProtect()` is a possible fix but might be better suited for patching purposes.
 
