@@ -215,13 +215,5 @@ r8 : lpBuffer                      (to be continued...)
 r9 : nSize                         (to be continued...)
 lpNumberOfBytesWritten             (any writable location)
 ```
-
-When beginning to build ROP exploits, likely will end up hard coding function pointer addresses. (`try to get function ptr`)
-
-#### Possible vector for remote injection
-```
-WPM_T _WriteProcessMemory = GetProcAddress(GetModuleHandle("ntdll"),"WriteProcessMemory")
-
-???
-```
+Egghunter will come in handy.
 
