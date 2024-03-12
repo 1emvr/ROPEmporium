@@ -140,7 +140,7 @@ system/print_file
 My script was close, but did not account for endianess of the xor'd characters, nor did it check for null-termination of strings or padding/alignment. 
 Also, did not consider double-encoding for bad xor characters (simply exited with error prior).
 
-I really hate python, so just choose a key that does not generate bad characters.
+I absolutely hate python, so just choose a key that does not generate bad characters.
 Also, choose a section who's address will not produce bad characters when iterated over for the length of the string.
 
-
+The string copy operation will only work with this simple chain if the string is <= 8 bytes as it's not exactly a proper strcpy implementation
