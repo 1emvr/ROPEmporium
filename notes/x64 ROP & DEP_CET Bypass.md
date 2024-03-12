@@ -26,10 +26,10 @@ Bypassing or changing DEP settings can all be done with native Windows API calls
 ## Useful Gadgets
 https://trustfoundry.net/2019/07/18/basic-rop-techniques-and-tricks/
 
-`pop rxx; ret` - popping a value from the stack into registers and ret
-`push esp; ret` - pushes stack pointer onto the stack and ret
-`xchg rxx, esp; ret` - exchange stack pointer with specified register and ret
-`add ebx, 0x12345678; ret` - add a constant value to register and ret
+- `pop rxx; ret` - popping a value from the stack into registers and ret
+- `push esp; ret` - pushes stack pointer onto the stack and ret
+- `xchg rxx, esp; ret` - exchange stack pointer with specified register and ret
+- `add ebx, 0x12345678; ret` - add a constant value to register and ret
 
 - When you don't have the gadgets you want, you can still use `xor` and `xchg` gadgets to perform some juggling.
 - Xoring registers against themselves sums 0, of course... xoring an empty register against a non-empty register will duplicate it's value (`math stuff`).
