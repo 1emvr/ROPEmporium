@@ -157,7 +157,7 @@ _start:
 	al = 0x20
 ```
 
-- `bextr` (bitfield extract) - Shifts desired bit field position down to LSB
+- `bextr` (bitfield extract) - Shifts desired bit field position down to LSB in AL
 ```asm
 section .data
 	operand dq 0x1234567890ABCDEF
