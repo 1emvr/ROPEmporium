@@ -173,3 +173,22 @@ _start:
 
 	AL = 5678
 ```
+
+- `stos` stores a byte, word or dword from AL, AX or EAX regsiter into dst from ES:EDI or ES:DI
+```asm
+section .data
+	buffer db 10 dup(?)
+
+section .text
+	global _start
+
+_start:
+	mov 	ecx, 10 	;; set loop counter to 10
+	mov 	edi, buffer	;; set dst index to start of buffer
+	mov	al, 'A'		;; set AL register to the desired value to store
+
+store_loop:
+	stosb 			;; store AL to the buffer
+	inc	edi		;; increment the index
+	loop 	store_loop	;; repeat until 0
+```
