@@ -1,5 +1,3 @@
-# Fluff
-
 ```
 [lemur@archlinux](fluff)$ checksec --file=fluff
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      Symbols         FORTIFY Fortified       Fortifiable     FILE
@@ -202,5 +200,4 @@ nopq 	;; (4 bytes):
 nopd 	;; (5 bytes):
 nopw 	;; (6 bytes):
 ```
-
 
