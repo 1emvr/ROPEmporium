@@ -111,4 +111,50 @@ Contents of section .bss:
 0x000000000040062a: pop rdx; pop rcx; add rcx, 0x3ef2; bextr rbx, rcx, rdx; ret;
 0x00000000004006a1: pop rsi; pop r15; ret;
 0x000000000040069d: pop rsp; pop r13; pop r14; pop r15; ret;
-``
+```
+
+#### call gadgets
+```asm
+0x000000000040060b: call 0x500; mov eax, 0; pop rbp; ret;
+0x0000000000400620: call 0x510; nop; pop rbp; ret;
+0x00000000004005dd: call 0x560; mov byte ptr [rip + 0x200a4f], 1; pop rbp; ret;
+0x000000000040070f: call qword ptr [rax + 1];
+0x00000000004007a3: call qword ptr [rax];
+0x00000000004007c3: call qword ptr [rcx];
+0x00000000004004e0: call rax;
+0x00000000004004e0: call rax; add rsp, 8; ret;
+```
+
+Looking through ida, there was one function that was not present in the table. Using `objdump` i was able to find it:
+```asm
+0000000000400628 <questionableGadgets>:
+  400628:       d7                      xlat   %ds:(%rbx)
+  400629:       c3                      ret
+  40062a:       5a                      pop    %rdx
+  40062b:       59                      pop    %rcx
+  40062c:       48 81 c1 f2 3e 00 00    add    $0x3ef2,%rcx
+  400633:       c4 e2 e8 f7 d9          bextr  %rdx,%rcx,%rbx
+  400638:       c3                      ret
+  400639:       aa                      stos   %al,%es:(%rdi)
+  40063a:       c3                      ret
+  40063b:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+```
+
+- `xlat/xlatb` (table lookup translation) - Replaces the byte in AL with byte from a user table addressed by BX. Essentially, allows to read from the `.data` segment
+```asm
+section .data
+	table db 0x10,0x20,0x30,0x40,0x50
+
+section .text
+	global _start
+
+_start:
+	mov	al, 2
+	mov	bl, 1
+	mov 	dl, [table]
+	xlat
+
+	al = 0x20
+```
+
+- `bextr` (bitfield extract) - Shifts desired bit field position down to LSB

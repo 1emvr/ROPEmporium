@@ -11,12 +11,8 @@
             "id": "e4e9e10c77fc92ad",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "x64 ROP & DEP_CET Bypass.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -69,8 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "e746ec6f3f035fe3",
@@ -86,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "x64 ROP & DEP_CET Bypass.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "x64 ROP & DEP_CET Bypass.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "x64 ROP & DEP_CET Bypass.md"
-              }
+              "state": {}
             }
           }
         ]

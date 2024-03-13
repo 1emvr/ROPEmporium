@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/x64 ROP & DEP_CET Bypass.md",
+                "file": "fluff/fluff.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "c485c923bdfe1988",
@@ -85,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "notes/x64 ROP & DEP_CET Bypass.md",
+                "file": "fluff/fluff.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "notes/x64 ROP & DEP_CET Bypass.md",
+                "file": "fluff/fluff.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "notes/x64 ROP & DEP_CET Bypass.md"
+                "file": "fluff/fluff.md"
               }
             }
           }
@@ -148,6 +149,17 @@
   },
   "active": "19b0640ebada8f88",
   "lastOpenFiles": [
+    "fluff/fluff.til",
+    "fluff/fluff.id2",
+    "fluff/fluff.nam",
+    "fluff/fluff.id1",
+    "fluff/fluff.id0",
+    "fluff/libfluff.so.til",
+    "fluff/libfluff.so.id2",
+    "fluff/libfluff.so.nam",
+    "fluff/libfluff.so.id1",
+    "fluff/libfluff.so.id0",
+    "fluff/peda-session-fluff.txt",
     "write4/write4.md",
     "write4/2024-03-09_03-45.png",
     "notes/x64 ROP & DEP_CET Bypass.md"
