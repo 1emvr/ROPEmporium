@@ -149,7 +149,7 @@ section .text
 	global _start
 
 _start:
-	mov	al, 2
+	mov	al, 2 	;; initial value
 	mov	bl, 1
 	mov 	dl, [table]
 	xlat
