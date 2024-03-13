@@ -192,3 +192,15 @@ store_loop:
 	inc	edi		;; increment the index
 	loop 	store_loop	;; repeat until 0
 ```
+
+- `nopl` - used for no-ops to pad for a memory-boundary
+```asm
+nop 	;; (1 byte):
+nopw 	;; (2 bytes):
+nopl 	;; (3 bytes):
+nopq 	;; (4 bytes):
+nopd 	;; (5 bytes):
+nopw 	;; (6 bytes):
+```
+
+
