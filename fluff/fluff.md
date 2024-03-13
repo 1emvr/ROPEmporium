@@ -158,3 +158,18 @@ _start:
 ```
 
 - `bextr` (bitfield extract) - Shifts desired bit field position down to LSB
+```asm
+section .data
+	operand dq 0x1234567890ABCDEF
+
+section .text
+	global _start
+
+_start:
+	mov 	rax, [operand]
+	mov	rcx, 4
+	mov 	rdx, 4
+	bextr	rax, rax, rcx, rdx
+
+	AL = 5678
+```
